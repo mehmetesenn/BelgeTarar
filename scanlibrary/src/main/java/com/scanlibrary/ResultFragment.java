@@ -1,13 +1,22 @@
 package com.scanlibrary;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +24,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
-/**
- * Created by jhansi on 29/03/15.
- */
 public class ResultFragment extends Fragment {
 
     private View view;
@@ -31,6 +41,7 @@ public class ResultFragment extends Fragment {
     private Button grayModeButton;
     private Button bwButton;
     private Bitmap transformed;
+    private OutputStream outputStream;
     private static ProgressDialogFragment progressDialogFragment;
 
     public ResultFragment() {
@@ -83,34 +94,58 @@ public class ResultFragment extends Fragment {
     private class DoneButtonClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            showProgressDialog(getResources().getString(R.string.loading));
-            AsyncTask.execute(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Intent data = new Intent();
-                        Bitmap bitmap = transformed;
-                        if (bitmap == null) {
-                            bitmap = original;
-                        }
-                        Uri uri = Utils.getUri(getActivity(), bitmap);
-                        data.putExtra(ScanConstants.SCANNED_RESULT, uri);
-                        getActivity().setResult(Activity.RESULT_OK, data);
-                        original.recycle();
-                        System.gc();
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                dismissDialog();
-                                getActivity().finish();
-                            }
-                        });
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+
+            try {
+
+                BitmapDrawable drawable = (BitmapDrawable) scannedImageView.getDrawable();
+                Bitmap bitmap = drawable.getBitmap();
+
+                PdfDocument pdfDocument = new PdfDocument();
+                PdfDocument.PageInfo page = new PdfDocument.PageInfo.Builder(bitmap.getWidth(),bitmap.getHeight(),1).create();
+                PdfDocument.Page page_1=pdfDocument.startPage(page);
+                Canvas canvas = page_1.getCanvas();
+                Paint paint = new Paint();
+                paint.setColor(Color.parseColor("#FFFFFF"));
+                canvas.drawPaint(paint);
+                bitmap = Bitmap.createScaledBitmap(bitmap,bitmap.getWidth(),bitmap.getHeight(),true);
+                paint.setColor(Color.BLUE);
+                canvas.drawBitmap(bitmap,0,0,null);
+                pdfDocument.finishPage(page_1);
+
+
+                File filepath = Environment.getExternalStorageDirectory();
+                File dir = new File(filepath.getAbsoluteFile() + "/Download/");
+                dir.mkdir();
+                File file = new File(dir, System.currentTimeMillis() + ".pdf");
+                try {
+                    outputStream = new FileOutputStream(file);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
                 }
-            });
+                pdfDocument.writeTo(outputStream);
+                pdfDocument.close();
+                getActivity().finish();
+
+
+                try {
+                    outputStream.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    outputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
         }
+
+
     }
 
     private class BWButtonClickListener implements View.OnClickListener {

@@ -22,45 +22,31 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        final Intent intent = new Intent(MainActivity.this,HomeActivity.class);
+
+        Thread thread = new Thread(){
+            @Override
+            public void run() {
+                try{
+                    sleep(5000);
+
+                }catch(InterruptedException e){
+                    e.printStackTrace();
 
 
-    }
-    public void OpenCamera(View v){
-        int REQUEST_CODE = 99;
-        int preference = ScanConstants.OPEN_CAMERA;
-        Intent intent = new Intent(this, ScanActivity.class);
-        intent.putExtra(ScanConstants.OPEN_INTENT_PREFERENCE,preference);
-        startActivityForResult(intent,REQUEST_CODE);
-
-
-
-
-    }
-
-    public void OpenGallery(View v){
-        int REQUEST_CODE = 99;
-        int preference = ScanConstants.OPEN_MEDIA;
-        Intent intent = new Intent(this, ScanActivity.class);
-        intent.putExtra(ScanConstants.OPEN_INTENT_PREFERENCE,preference);
-        startActivityForResult(intent,REQUEST_CODE);
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == 99 && resultCode == Activity.RESULT_OK) {
-            Uri uri = data.getExtras().getParcelable(ScanConstants.SCANNED_RESULT);
-            Bitmap bitmap = null;
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                getContentResolver().delete(uri, null, null);
-                //scannedImageView.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
+                }
+                finally{
+                    startActivity(intent);
+                    finish();
+                }
             }
-        }
+        };thread.start();
+
+
+
     }
+
+
+
+
 }
