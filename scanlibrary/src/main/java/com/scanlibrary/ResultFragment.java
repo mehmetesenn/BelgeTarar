@@ -1,11 +1,7 @@
 package com.scanlibrary;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -22,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -41,6 +36,10 @@ public class ResultFragment extends Fragment {
     private Button grayModeButton;
     private Button bwButton;
     private Bitmap transformed;
+    public static  File file;
+    public File dir;
+    public File filepath;
+    public PdfDocument pdfDocument;
     private OutputStream outputStream;
     private static ProgressDialogFragment progressDialogFragment;
 
@@ -68,6 +67,7 @@ public class ResultFragment extends Fragment {
         setScannedImage(bitmap);
         doneButton = (Button) view.findViewById(R.id.doneButton);
         doneButton.setOnClickListener(new DoneButtonClickListener());
+
     }
 
     private Bitmap getBitmap() {
@@ -97,10 +97,11 @@ public class ResultFragment extends Fragment {
 
             try {
 
+
                 BitmapDrawable drawable = (BitmapDrawable) scannedImageView.getDrawable();
                 Bitmap bitmap = drawable.getBitmap();
 
-                PdfDocument pdfDocument = new PdfDocument();
+                 pdfDocument = new PdfDocument();
                 PdfDocument.PageInfo page = new PdfDocument.PageInfo.Builder(bitmap.getWidth(),bitmap.getHeight(),1).create();
                 PdfDocument.Page page_1=pdfDocument.startPage(page);
                 Canvas canvas = page_1.getCanvas();
@@ -111,12 +112,13 @@ public class ResultFragment extends Fragment {
                 paint.setColor(Color.BLUE);
                 canvas.drawBitmap(bitmap,0,0,null);
                 pdfDocument.finishPage(page_1);
+                 filepath = Environment.getExternalStorageDirectory();
 
+                 dir = new File(filepath.getAbsoluteFile() + "/Download/");
+                 dir.mkdir();
 
-                File filepath = Environment.getExternalStorageDirectory();
-                File dir = new File(filepath.getAbsoluteFile() + "/Download/");
-                dir.mkdir();
-                File file = new File(dir, System.currentTimeMillis() + ".pdf");
+                file = new File(dir, System.currentTimeMillis() + ".pdf");
+
                 try {
                     outputStream = new FileOutputStream(file);
                 } catch (FileNotFoundException e) {
@@ -125,6 +127,8 @@ public class ResultFragment extends Fragment {
                 pdfDocument.writeTo(outputStream);
                 pdfDocument.close();
                 getActivity().finish();
+
+
 
 
                 try {
@@ -142,6 +146,15 @@ public class ResultFragment extends Fragment {
                 e.printStackTrace();
             }
 
+            Intent export = new Intent(getActivity(),FileExport.class);
+            export.putExtra("path",file.getPath());
+            startActivity(export);
+           
+
+
+
+
+           
 
         }
 

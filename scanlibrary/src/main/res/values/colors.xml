@@ -3,7 +3,10 @@
 
     <color name="blue">#ff59a9ff</color>
     <color name="orange">#ffff900d</color>
+    <color name="blackk">#FF000000</color>
+    <color name ="primaryblue">#FF03DAC5</color>
     <color name="bottom_background_color">#ffc4c2bc</color>
+    <color name="whitee">#FFFFFFFF</color>
 
     <color name="polygonViewCircleStrokeColor">#ff59a9ff</color>
     <color name="polygonViewCircleBackground">#90e5f8ff</color>

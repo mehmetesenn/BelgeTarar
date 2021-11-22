@@ -1,37 +1,24 @@
 package com.mehmetesen.documentscanner;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.DownloadManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.provider.MediaStore.Downloads;
 import android.view.View;
-import android.widget.Toast;
 
-import com.google.android.material.snackbar.Snackbar;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.scanlibrary.ScanActivity;
 import com.scanlibrary.ScanConstants;
 
-
-
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URI;
 
 public class HomeActivity extends AppCompatActivity {
     private static final int  PERMISSION_CODE = 1000;
@@ -65,8 +52,9 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
     public void folder(View view){
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        startActivity(new Intent(DownloadManager.ACTION_VIEW_DOWNLOADS));
+        Intent intent = new Intent(this,Folders.class);
+        startActivity(intent);
+
     }
 
     public void gallery(View view){
@@ -82,6 +70,11 @@ public class HomeActivity extends AppCompatActivity {
             opengallery();
         }
 
+    }
+
+    public void ocr(View view){
+        Intent intent = new Intent(this,Ocr.class);
+        startActivity(intent);
     }
 
 
@@ -104,6 +97,8 @@ public class HomeActivity extends AppCompatActivity {
         startActivityForResult(intent,REQUEST_CODE);
 
     }
+
+
 
 
 
