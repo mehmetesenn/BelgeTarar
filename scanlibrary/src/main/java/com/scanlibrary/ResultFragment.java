@@ -119,6 +119,8 @@ public class ResultFragment extends Fragment {
 
                 file = new File(dir, System.currentTimeMillis() + ".pdf");
 
+
+
                 try {
                     outputStream = new FileOutputStream(file);
                 } catch (FileNotFoundException e) {

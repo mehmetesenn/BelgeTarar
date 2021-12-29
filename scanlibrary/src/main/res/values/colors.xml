@@ -7,6 +7,9 @@
     <color name ="primaryblue">#FF03DAC5</color>
     <color name="bottom_background_color">#ffc4c2bc</color>
     <color name="whitee">#FFFFFFFF</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+    <color name="teal_200">#FF03DAC5</color>
 
     <color name="polygonViewCircleStrokeColor">#ff59a9ff</color>
     <color name="polygonViewCircleBackground">#90e5f8ff</color>

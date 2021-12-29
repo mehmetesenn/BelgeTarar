@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
+
 public class FileExport extends AppCompatActivity {
    TextView pdffolder;
     String openpdf;
@@ -26,7 +28,13 @@ public class FileExport extends AppCompatActivity {
 
     }
     public void cancel(View view){
+
+
+        Intent intent = new Intent(FileExport.this, Home2Activity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         finish();
+        startActivity(intent);
+
     }
     public void share(View view){
         Intent share = new Intent(Intent.ACTION_SEND);
@@ -37,12 +45,26 @@ public class FileExport extends AppCompatActivity {
 
     }
     public void Openpdf(View view){
+        /*
         Intent open=new Intent();
         open.setDataAndType(Uri.parse(openpdf),"application/pdf");
         Intent chooser = Intent.createChooser(open,"Open Pdf");
         startActivity(chooser);
 
+         */
+        Intent pdfview = new Intent(FileExport.this,PdfView.class);
+        startActivity(pdfview);
 
 
+
+
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(FileExport.this,Home2Activity.class);
+        startActivity(intent);
     }
 }

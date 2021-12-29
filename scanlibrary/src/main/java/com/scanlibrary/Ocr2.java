@@ -1,4 +1,4 @@
-package com.mehmetesen.documentscanner;
+package com.scanlibrary;
 
 import android.Manifest;
 import android.content.ClipData;
@@ -22,39 +22,37 @@ import androidx.core.content.ContextCompat;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
-import com.mehmetesen.documentscanner.databinding.ActivityOcrBinding;
+import com.scanlibrary.databinding.ActivityOcr2Binding;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.IOException;
 
-public class Ocr extends AppCompatActivity {
-    ActivityOcrBinding binding;
-
+public class Ocr2 extends AppCompatActivity {
+    ActivityOcr2Binding binding;
     Bitmap bitmap;
     private static  final int REQUEST_CAMERA_CODE = 100;
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityOcrBinding.inflate(getLayoutInflater());
+        binding = ActivityOcr2Binding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-        if(ContextCompat.checkSelfPermission(Ocr.this, Manifest.permission.CAMERA ) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(Ocr.this,new String[] {Manifest.permission.CAMERA},REQUEST_CAMERA_CODE);
+
+        if(ContextCompat.checkSelfPermission(Ocr2.this, Manifest.permission.CAMERA ) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(Ocr2.this,new String[] {Manifest.permission.CAMERA},REQUEST_CAMERA_CODE);
 
 
         }
         binding.capture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(Ocr.this);
+                CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(Ocr2.this);
 
             }
         });
-
         binding.copy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,10 +63,7 @@ public class Ocr extends AppCompatActivity {
         });
 
 
-
     }
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -93,7 +88,7 @@ public class Ocr extends AppCompatActivity {
         TextRecognizer recognizer = new TextRecognizer.Builder(this).build();
 
         if(!recognizer.isOperational()){
-            Toast.makeText(Ocr.this, "Error occured", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Ocr2.this, "Error occured", Toast.LENGTH_SHORT).show();
 
         }
         else{
@@ -114,11 +109,11 @@ public class Ocr extends AppCompatActivity {
 
         }
     }
-
     private void copyToClipBoard(String text){
         ClipboardManager clipBoard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText("Copied data ",text);
         clipBoard.setPrimaryClip(clip);
-        Toast.makeText(Ocr.this, "Copied to clipboard  ", Toast.LENGTH_LONG).show();
+        Toast.makeText(Ocr2.this, "Copied to clipboard  ", Toast.LENGTH_LONG).show();
     }
+
 }

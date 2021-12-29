@@ -14,20 +14,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DocumentScanner">
 
-        <activity android:name=".Ocr"
-            android:theme="@style/Theme.Design.NoActionBar"
-            >
-            
-        </activity>
         <activity android:name="com.scanlibrary.FileExport"
             android:theme="@style/Theme.Design.NoActionBar"
             ></activity>
-        <activity android:name=".Folders"
-            android:theme="@style/Theme.Design.NoActionBar"
-            />
-        <activity android:name=".HomeActivity"
-            android:theme="@style/Theme.Design.NoActionBar"
-            />
+        <activity android:name="com.scanlibrary.Home2Activity"
+            android:theme="@style/Theme.Design.NoActionBar">
+
+        </activity>
+        <activity android:name="com.scanlibrary.PdfView"
+            android:theme="@style/Theme.Design.NoActionBar">
+
+        </activity>
         <activity android:name=".MainActivity"
                   android:theme="@style/Theme.Design.NoActionBar">
 

@@ -3,6 +3,7 @@ package com.scanlibrary;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.PointF;
@@ -21,6 +22,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -43,6 +45,11 @@ public class ScanFragment extends Fragment {
     private ProgressDialogFragment progressDialogFragment;
     private IScanner scanner;
     private Bitmap original;
+    public static  ArrayList<File> jpegFileList=new ArrayList<>();
+    public static ArrayList<Bitmap> jpegbitmaplist=new ArrayList<>();
+    public static int nextclick;
+
+
 
     @Override
     public void onAttach(Activity activity) {
@@ -163,13 +170,18 @@ public class ScanFragment extends Fragment {
             File filepath = Environment.getExternalStorageDirectory();
             File dir = new File(filepath.getAbsoluteFile() + "/Download/");
             dir.mkdir();
-            File file = new File(dir, System.currentTimeMillis() + ".jpg");
+            File filejpg = new File(dir, System.currentTimeMillis() + ".jpg");
+            jpegFileList.add(filejpg);
+
             try {
-                outputStream = new FileOutputStream(file);
+                outputStream = new FileOutputStream(filejpg);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+            jpegbitmaplist.add(bitmap);
+
             try {
                 outputStream.flush();
             } catch (IOException e) {
@@ -189,6 +201,12 @@ public class ScanFragment extends Fragment {
             } else {
                 showErrorDialog();
             }
+
+
+
+            Intent intent=new Intent(getActivity(),JpegList.class);
+            startActivity(intent);
+
 
         }
 
