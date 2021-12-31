@@ -15,4 +15,19 @@
 
     </ImageView>
 
+    <Button
+        android:onClick="ocr"
+        android:id="@+id/ocractivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:backgroundTint="@color/teal_200"
+        android:text="Ocr"
+        android:textColor="@color/white"
+        android:textSize="20sp">
+
+
+    </Button>
+
 </RelativeLayout>

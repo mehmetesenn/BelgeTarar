@@ -1,4 +1,4 @@
-package com.mehmetesen.documentscanner;
+package com.scanlibrary;
 
 import android.Manifest;
 import android.content.Intent;
@@ -9,43 +9,14 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.scanlibrary.ScanActivity;
-import com.scanlibrary.ScanConstants;
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity2 extends AppCompatActivity {
     private static final int  PERMISSION_CODE = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-       // final Intent intent = new Intent(MainActivity.this,HomeActivity.class);
-        /*
-        Thread thread = new Thread(){
-            @Override
-            public void run() {
-                try{
-                    sleep(5000);
-
-                }catch(InterruptedException e){
-                    e.printStackTrace();
-
-
-                }
-                finally{
-                   // startActivity(intent);
-                    finish();
-                }
-            }
-        };thread.start();
-
-         */
-
-
+        setContentView(R.layout.activity_main2);
         check();
-
-
-
     }
     public void check(){
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
@@ -73,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
         finish();
         startActivityForResult(intent,REQUEST_CODE);
     }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -83,4 +53,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
 }
