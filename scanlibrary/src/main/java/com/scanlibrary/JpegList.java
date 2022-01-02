@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class JpegList extends AppCompatActivity {
@@ -18,10 +18,11 @@ public class JpegList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jpeg_list);
-       recyclerView = findViewById(R.id.recyclerView);
-       recyclerViewJpegAdapter=new RecyclerViewJpegAdapter(jpegFileList);
-       recyclerView.setLayoutManager(new LinearLayoutManager(this));
-       recyclerView.setAdapter(recyclerViewJpegAdapter);
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerViewJpegAdapter=new RecyclerViewJpegAdapter(jpegFileList);
+        RecyclerView.LayoutManager layoutManager  = new GridLayoutManager(this,2);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(recyclerViewJpegAdapter);
 
 
 
