@@ -32,9 +32,11 @@
         </activity>
         <activity
             android:name=".JpegViewActivity"
+            android:theme="@style/Theme.Design.NoActionBar"
             android:exported="false" />
         <activity
             android:name=".JpegList"
+            android:theme="@style/Theme.Design.NoActionBar"
             android:exported="false" />
         <activity
             android:name=".PdfText"
@@ -44,6 +46,7 @@
             android:exported="false" />
         <activity
             android:name=".Ocr2"
+            android:theme="@style/Theme.Design.NoActionBar"
             android:exported="false" />
         <activity
             android:name=".Folders2"
